@@ -1,0 +1,28 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "CMSIS Load+Run",
+            "problemMatcher": [],
+            "type": "shell",
+            "command": "FVP_Corstone_SSE-300_Ethos-U55",
+            "options": {
+                "cwd": "${workspaceFolder}/",
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": [
+                        "/d",
+                        "/c"
+                    ]
+                }
+            },
+            "args": [
+                "-f",
+                "ARM_VHT_Corstone_300_config.txt",
+                "-a",
+                "build/MPS3/AC6/Debug/Hello/outdir/Hello.axf",
+                ""
+            ]
+        }
+    ]
+}

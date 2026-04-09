@@ -1,0 +1,17 @@
+# Copyright (c) 2024 Arm Limited. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+project:
+  groups:
+    - group: Main
+      files:
+        - file: ./main.c
+  
+
+  components:
+    - component: ARM::CMSIS:CORE
+    - component: ARM::Device:Definition
+    - component: ARM::Device:Native Driver:SysCounter
+    - component: ARM::Device:Native Driver:SysTimer
+    - component: ARM::Device:Native Driver:Timeout
+    - component: ARM::Device:Startup&C Startup

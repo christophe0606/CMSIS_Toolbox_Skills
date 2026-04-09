@@ -1,0 +1,43 @@
+# Copyright (c) 2024 Arm Limited. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+solution:
+  description: Hello example
+  compiler: AC6
+
+  packs:
+    - pack: ARM::CMSIS@6.0.0
+    - pack: ARM::CMSIS-Compiler@2.1.0
+    - pack: ARM::V2M_MPS3_SSE_300_BSP@1.4.0
+    - pack: ARM::Cortex_DFP@1.0.0
+
+  cdefault:
+
+  target-types:
+    - type: MPS3
+      board: V2M-MPS3-SSE-300-FVP
+      target-set:
+        - set:
+          images:
+            - project-context: Hello.Debug
+          debugger:
+            name: Arm-FVP
+            model: FVP_Corstone_SSE-300_Ethos-U55
+            config-file: ARM_VHT_Corstone_300_config.txt
+
+  build-types:
+    - type: Debug
+      debug: on
+      optimize: none
+
+    - type: Release
+      debug: off
+      optimize: balanced
+
+  projects:
+    - project: ./Hello/Hello.cproject.yml
+
+  output-dirs:
+    cprjdir: ./build/$TargetType$/$Compiler$/$BuildType$/$Project$
+    outdir: ./build/$TargetType$/$Compiler$/$BuildType$/$Project$/outdir
+  created-for: CMSIS-Toolbox@2.12.0
