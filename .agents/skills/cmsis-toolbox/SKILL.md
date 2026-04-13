@@ -36,11 +36,12 @@ Example on windows: `set AC6_TOOLCHAIN_6_19_0=C:\Keil_v5\ARM\ARMCLANG\bin`
 ## How to build a project using CMSIS Toolbox
 * Build a solution named `example` using default settings  `cbuild <solution-name>.csolution.yml`
 * Build a solution named `example` using a specific toolchain `cbuild <solution-name>.csolution.yml --toolchain AC6`
-* Build a solution named `example` using a specific build configuration `cbuild <solution-name>.csolution.yml --context .Release`
-* Build a solution named `example` using a specific toolchain and build configuration `cbuild <solution-name>.csolution.yml --toolchain AC6 --context .Release`
-* Build a solution named `example` using a specific toolchain, build configuration and target `cbuild <solution-name>.csolution.yml --toolchain AC6 --context .Release --active MyBoard`
+* Build a solution named `example` using a specific target `cbuild <solution-name>.csolution.yml --active <board-name>`
+* Build a solution named `example` using a specific toolchain and target `cbuild <solution-name>.csolution.yml --toolchain AC6 --active <board-name>`
 
 The solution file is generally in the root folder of the project and has a name in the format `<solution-name>.csolution.yml`. The solution file contains the build information for the project.
+
+The `<board-name>` is the type entry of the target-types defined in the solution file. The solution file can contain multiple target-types, each with a different board name. The `--active` option is used to specify which target-type to build.
 
 Option `--output <output-folder>` can be used to specify the output folder for the build artifacts. By default, the build artifacts are generated in the `build` folder in the root of the project.
 

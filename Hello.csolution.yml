@@ -40,4 +40,4 @@ solution:
   output-dirs:
     cprjdir: ./build/$TargetType$/$Compiler$/$BuildType$/$Project$
     outdir: ./build/$TargetType$/$Compiler$/$BuildType$/$Project$/outdir
-  created-for: CMSIS-Toolbox@2.12.0
+  created-for: CMSIS-Toolbox@2.13.0

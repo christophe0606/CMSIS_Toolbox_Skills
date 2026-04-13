@@ -1,9 +1,8 @@
 build-idx:
-  generated-by: csolution version 2.13.0+p3-g40b6564e
+  generated-by: csolution version 2.13.0
   description: Hello example
   cdefault: cdefault.yml
   csolution: Hello.csolution.yml
-  cbuild-run: build/AC6/outdir/Hello+MPS3.cbuild-run.yml
   tmpdir: tmp
   cprojects:
     - cproject: Hello/Hello.cproject.yml
@@ -17,8 +16,21 @@ build-idx:
           - file 'C:/Users/chrfav01/benchresults/CMSIS_Toolbox_Skills/Hello/RTE/Device/SSE-300-MPS3/device_cfg.h' update suggested; merge content from update file, rename update file to base file and remove previous base file
         info:
           - Hello.cbuild-pack.yml - file is already up-to-date
-          - Hello+MPS3.cbuild-run.yml - file is already up-to-date
-          - Hello.Debug+MPS3.cbuild.yml - file is already up-to-date
+          - Hello.Debug+MPS3.cbuild.yml - file generated successfully
       packs-unused:
         - pack: ARM::CMSIS-Compiler@2.1.0
         - pack: ARM::Cortex_DFP@1.0.0
+    - cbuild: build/MPS3/AC6/Release/Hello/outdir/Hello.Release+MPS3.cbuild.yml
+      project: Hello
+      configuration: .Release+MPS3
+      messages:
+        warnings:
+          - "Hello.cproject.yml - dependency validation for context 'Hello.Release+MPS3' failed:\nMISSING ARM::Device:Definition@2.0.0\n  require CMSIS:CORE@5.6.0\nMISSING ARM::Device:Native Driver:SysCounter@1.1.0\n  require CMSIS:CORE@5.6.0\nMISSING ARM::Device:Native Driver:SysTimer@1.1.0\n  require CMSIS:CORE@5.6.0\nMISSING ARM::Device:Native Driver:Timeout@1.0.0\n  require CMSIS:CORE@5.6.0\nMISSING ARM::Device:Startup&C Startup@2.0.0\n  require CMSIS:CORE@5.6.0"
+          - file 'C:/Users/chrfav01/benchresults/CMSIS_Toolbox_Skills/Hello/RTE/Device/SSE-300-MPS3/device_cfg.h' update suggested; merge content from update file, rename update file to base file and remove previous base file
+        info:
+          - Hello.cbuild-pack.yml - file is already up-to-date
+          - Hello.Release+MPS3.cbuild.yml - file generated successfully
+      packs-unused:
+        - pack: ARM::CMSIS-Compiler@2.1.0
+        - pack: ARM::Cortex_DFP@1.0.0
+  rebuild: true
