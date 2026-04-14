@@ -21,6 +21,3 @@ inherit all the environment when the agent is launching some external tools.
 [shell_environment_policy]
 inherit = "all"
 ```
-## Example
-
-[InteractionExample.md](InteractionExample.md) is showing an example of use of the CMSIS Toolbox skill.

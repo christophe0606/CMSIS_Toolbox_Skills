@@ -16,12 +16,13 @@ description: This skill provides access to the CMSIS Toolbox, a collection of to
  * When you need to create build information for embedded applications that consist of one or more related projects.
 
 ## Standard workflow for using this skill
-1. Initialize the pack registry (if not already initialized).
-2. Add the required software packs to the registry (if not already added).
-3. Check if a solution file is available for the project. If not, create a solution file that defines the build information for the project.
-4. Build the solution using the `cbuild` command, specifying the solution file and any necessary options (e.g., build context, toolchain, target).
-5. Optionally, set up the project for an IDE to enable features like code completion and debugging.
-6. Clean the build artifacts when necessary using the `cbuild --clean` command.
+1. Check if a solution file is available for the project. If not, cancel the workflow.
+2. Initialize the pack registry (if not already initialized).
+3. Add the missing software packs to the registry.
+4. Select a target type and build context for the project if not already provided by the user
+5. Build the solution using the `cbuild` command, specifying the solution file and the selected target type and build context. Use the `--update-rte` and `--packs` options for the first build to ensure that all required packs are installed and the RTE is up-to-date.
+6. Set up the project for an IDE to enable features like code completion and debugging if working in an IDE environment.
+7. Clean the build artifacts when necessary using the `cbuild --clean` command.
 
 ## Quick Reference
 
@@ -78,7 +79,7 @@ The solution file is generally in the root folder of the project and has a name 
 
 The `<target-name>` is the type entry of the target-types defined in the solution file. The solution file can contain multiple target-types, each with a different target name. The `--active` option is used to specify which target-type to build.
 
-Option `--output <output-folder>` can be used to specify the output folder for the build artifacts. By default, the build artifacts are generated in the `build` folder in the root of the project.
+Option `--output <output-folder>` can be used to specify the output folder for the build artifacts. By default, the build artifacts are generated in the `build` folder in the root of the project. If `output-dirs` is defined in the solution, don't use the `--output` option.
 
 The first build should add the option `--update-rte` and `--packs`to ensure that all required packs are installed and the RTE is up-to-date. After the first build, the option can be omitted if there are no changes to the solution file or the pack registry.
 
