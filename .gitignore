@@ -2,3 +2,4 @@ tmp/
 build/
 .cmsis/
 *.bat
+command.txt

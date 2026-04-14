@@ -20,7 +20,7 @@ description: This skill provides access to the CMSIS Toolbox, a collection of to
 2. Initialize the pack registry (if not already initialized).
 3. Add the missing software packs to the registry.
 4. Select a target type and build context for the project if not already provided by the user
-5. Build the solution using the `cbuild` command, specifying the solution file and the selected target type and build context. Use the `--update-rte` and `--packs` options for the first build to ensure that all required packs are installed and the RTE is up-to-date.
+5. Build the solution using the `cbuild` command, specifying the solution file and the selected target type and build context. Use the `--update-rte` and `--packs` options for the first build to ensure that all required packs are installed and the RTE is up-to-date. Only one configuration must be built : the one corresponding to the selected target and context.
 6. Set up the project for an IDE to enable features like code completion and debugging if working in an IDE environment.
 7. Clean the build artifacts when necessary using the `cbuild --clean` command.
 
@@ -68,6 +68,7 @@ Example on windows: `set AC6_TOOLCHAIN_6_19_0=C:\Keil_v5\ARM\ARMCLANG\bin`
 ## How to build a project using CMSIS Toolbox
 
 A solution file is used to build a project using CMSIS Toolbox. The solution file contains the build information for the project, including the toolchain, target, and build options.
+Only one configuration should be built at a time, corresponding to the selected target and context. 
 
 * Build a solution using default settings : `cbuild <solution-name>.csolution.yml`
 * Build a solution with a specific build context (.Release, .Debug, CM55.Release ...) : `cbuild <solution-name>.csolution.yml --context <context-name>`
