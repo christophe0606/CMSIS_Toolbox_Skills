@@ -3,3 +3,5 @@ build/
 .cmsis/
 *.bat
 command.txt
+Hello.cbuild-idx.yml
+Hello.cbuild-pack.yml
