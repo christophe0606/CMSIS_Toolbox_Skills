@@ -15,56 +15,107 @@ description: This skill provides access to the CMSIS Toolbox, a collection of to
  * When you need to orchestrate the build steps utilizing CMSIS tools and a CMake compilation process.
  * When you need to create build information for embedded applications that consist of one or more related projects.
 
+## Standard workflow for using this skill
+1. Initialize the pack registry (if not already initialized).
+2. Add the required software packs to the registry (if not already added).
+3. Check if a solution file is available for the project. If not, create a solution file that defines the build information for the project.
+4. Build the solution using the `cbuild` command, specifying the solution file and any necessary options (e.g., build context, toolchain, target).
+5. Optionally, set up the project for an IDE to enable features like code completion and debugging.
+6. Clean the build artifacts when necessary using the `cbuild --clean` command.
+
+## Quick Reference
+
+| Task | Command |
+|------|----------|
+| Initialize pack registry | `cpackget init https://www.keil.com/pack/index.pidx` |
+| Update the pack registry | `cpackget update-index` |
+| Build a solution | `cbuild <solution-name>.csolution.yml` |
+| Add a new software pack to the registry | `cpackget add <pack-name>` |
+| List pack required by the solution | `csolution list packs  <solution-name>.csolution.yml` |
+| List devices | `csolution list devices` |
+| List boards | `csolution list boards` |
+| List solution dependencies | `csolution list dependencies <solution-name>.csolution.yml` |
+| Setup the project for an IDE | `cbuild setup <solution-name>.csolution.yml --context-set --packs` |
+| Clean the build artifacts | `cbuild --clean <solution-name>.csolution.yml` |
+
 
 ## How to initialize the pack registry if it was not initialized before
+
+The first time CMSIS Toolbox is used, the pack registry needs to be initialized with the command below. This will download the pack index from the specified URL and populate the local pack registry with the available packs.
+
 ```bash
 cpackget init https://www.keil.com/pack/index.pidx
 ```
 
 ## How to update the pack registry
+
+To ensure that the local pack registry is up-to-date with the latest available packs, the following command can be used to update the pack index:
+
 ```bash
 cpackget update-index
 ```
 
 ## How to register a toolchain for use by CMSIS Toolbox
 
-Define an environment variable with following format: `<name>_TOOLCHAIN_<major>_<minor>_<patch>=<path/to/toolchain/binaries>`
-Use the path to the directory containing the toolchain binaries (e.g., armclang.exe for Arm Compiler 6). The version numbers should correspond to the toolchain version you are registering.
+Define an environment variable with following format: 
+`<name>_TOOLCHAIN_<major>_<minor>_<patch>=<path/to/toolchain/binaries>`
+
+Use the path to the directory containing the toolchain binaries (e.g., `armclang.exe` for Arm Compiler 6 on Windows). The version numbers should correspond to the toolchain version you are registering.
 
 Example on windows: `set AC6_TOOLCHAIN_6_19_0=C:\Keil_v5\ARM\ARMCLANG\bin`
 
 ## How to build a project using CMSIS Toolbox
-* Build a solution named `example` using default settings  `cbuild <solution-name>.csolution.yml`
-* Build a solution named `example` using a specific toolchain `cbuild <solution-name>.csolution.yml --toolchain AC6`
-* Build a solution named `example` using a specific target `cbuild <solution-name>.csolution.yml --active <board-name>`
-* Build a solution named `example` using a specific toolchain and target `cbuild <solution-name>.csolution.yml --toolchain AC6 --active <board-name>`
+
+A solution file is used to build a project using CMSIS Toolbox. The solution file contains the build information for the project, including the toolchain, target, and build options.
+
+* Build a solution using default settings : `cbuild <solution-name>.csolution.yml`
+* Build a solution with a specific build context (.Release, .Debug, CM55.Release ...) : `cbuild <solution-name>.csolution.yml --context <context-name>`
+* Build a solution using a specific toolchain (AC6, GCC, CLANG) : `cbuild <solution-name>.csolution.yml --toolchain <toolchain>`
+* Build a solution using a specific target `cbuild <solution-name>.csolution.yml --active <target-name>`
+
 
 The solution file is generally in the root folder of the project and has a name in the format `<solution-name>.csolution.yml`. The solution file contains the build information for the project.
 
-The `<board-name>` is the type entry of the target-types defined in the solution file. The solution file can contain multiple target-types, each with a different board name. The `--active` option is used to specify which target-type to build.
+The `<target-name>` is the type entry of the target-types defined in the solution file. The solution file can contain multiple target-types, each with a different target name. The `--active` option is used to specify which target-type to build.
 
 Option `--output <output-folder>` can be used to specify the output folder for the build artifacts. By default, the build artifacts are generated in the `build` folder in the root of the project.
 
-The first build should add the option `--update-rte` to ensure that all required packs are installed and the RTE is up-to-date. After the first build, the option `--update-rte` can be omitted if there are no changes to the solution file or the pack registry.
+The first build should add the option `--update-rte` and `--packs`to ensure that all required packs are installed and the RTE is up-to-date. After the first build, the option can be omitted if there are no changes to the solution file or the pack registry.
 
-When using an IDE, the 
+`--update-rte` option will update the RTE (Run-Time Environment) files for the project. This is necessary when there are changes to the solution file or the pack registry that affect the RTE files.
+
+`--packs` option will install any missing packs required by the solution. This is necessary when there are changes to the solution file or the pack registry that affect the required packs.
+
+If used from an IDE context, the project should be set up for the IDE before building. This will ensure that the IDE has the necessary information about the project structure, dependencies, and build settings to provide features like code completion, error checking, and debugging.
+
+## Setup the project for an IDE
+
+In an IDE environment, this command downloads missing packs, creates build information files, and generates the file `compile_commands.json` for IntelliSense. 
+
+```bash
+cbuild setup <solution-name>.csolution.yml --context-set --packs`
+```
 
 ## How to add a new software pack to the registry
-* Add a new software pack to the registry `cpackget add <pack-name>`
-* Add a new specific version of a software pack to the registry `cpackget add <pack-name>@<version-number>`
+* Add a new software pack to the registry : `cpackget add <pack-name>`
+* Add a new specific version of a software pack to the registry : `cpackget add <pack-name>@<version-number>`
 
 Example: `cpackget add Arm::CMSIS@6.1.0`
 
 ## How to list installed software packs in the registry
-* List all installed software packs in the registry `csolution list packs`
+
+List all installed software packs in the registry : `csolution list packs`
 
 ## How to list packs required by the solution
+
 `csolution list packs  <solution-name>.csolution.yml`
 
 ## How to install missing packs required by the solution
+
 ```bash
-csolution list packs <solution-name>.csolution.yml -m >packs.txt
+csolution list packs <solution-name>.csolution.yml -m > packs.txt
 cpackget update-index               # optional to ensure that pack index is up-to-date
 cpackget add -f packs.txt
 ```
-
+## Documentation for the CMSIS Toolbox 
+* [CMSIS Toolbox Documentation](https://open-cmsis-pack.github.io/cmsis-toolbox/build-tools/)

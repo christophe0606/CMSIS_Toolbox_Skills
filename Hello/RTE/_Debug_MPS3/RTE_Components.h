@@ -15,6 +15,10 @@
  */
 #define CMSIS_device_header "SSE300MPS3.h"
 
+/* ARM::Device:Native Driver:SysCounter@1.1.0 */
+#define RTE_SYSCOUNTER      1
+/* ARM::Device:Native Driver:Timeout@1.0.0 */
+#define RTE_TIMEOUT      1
 
 
 #endif /* RTE_COMPONENTS_H */
