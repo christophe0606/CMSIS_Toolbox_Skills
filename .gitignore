@@ -6,3 +6,5 @@ out/
 command.txt*
 Hello.cbuild-idx.yml
 Hello.cbuild-pack.yml
+.clangd
+
