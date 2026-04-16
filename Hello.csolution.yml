@@ -37,7 +37,4 @@ solution:
   projects:
     - project: ./Hello/Hello.cproject.yml
 
-  output-dirs:
-    cprjdir: ./build/$TargetType$/$Compiler$/$BuildType$/$Project$
-    outdir: ./build/$TargetType$/$Compiler$/$BuildType$/$Project$/outdir
   created-for: CMSIS-Toolbox@2.13.0

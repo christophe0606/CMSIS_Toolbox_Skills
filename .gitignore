@@ -1,7 +1,8 @@
 tmp/
 build/
+out/
 .cmsis/
 *.bat
-command.txt
+command.txt*
 Hello.cbuild-idx.yml
 Hello.cbuild-pack.yml
