@@ -19,8 +19,8 @@ description: This skill provides access to the CMSIS Toolbox, a collection of to
 1. Check if a solution file is available for the project. If not, cancel the workflow.
 2. Initialize the pack registry (if not already initialized).
 3. Add the missing software packs to the registry.
-4. Select a target type and build context for the project if not already provided by the user
-5. Build the solution using the `cbuild` command, specifying the solution file and the selected target type and build context. Use the `--update-rte` and `--packs` options for the first build to ensure that all required packs are installed and the RTE is up-to-date. Only one configuration must be built : the one corresponding to the selected target and context.
+4. Select a target type for the project if not already provided by the user
+5. Build the solution using the `cbuild` command, specifying the solution file and the selected target type. Use the `--update-rte` and `--packs` options for the first build to ensure that all required packs are installed and the RTE is up-to-date. Only one configuration must be built : the one corresponding to the selected target set.
 6. Set up the project for an IDE to enable features like code completion and debugging if working in an IDE environment.
 7. Clean the build artifacts when necessary using the `cbuild --clean` command.
 
@@ -36,7 +36,7 @@ description: This skill provides access to the CMSIS Toolbox, a collection of to
 | List devices | `csolution list devices` |
 | List boards | `csolution list boards` |
 | List solution dependencies | `csolution list dependencies <solution-name>.csolution.yml` |
-| Setup the project for an IDE | `cbuild setup <solution-name>.csolution.yml --context-set --packs` |
+| Setup the project for an IDE | `cbuild setup <solution-name>.csolution.yml --target database --active <target-set> --packs --skip-convert` |
 | Clean the build artifacts | `cbuild --clean <solution-name>.csolution.yml` |
 
 
@@ -68,19 +68,16 @@ Example on windows: `set AC6_TOOLCHAIN_6_19_0=C:\Keil_v5\ARM\ARMCLANG\bin`
 ## How to build a project using CMSIS Toolbox
 
 A solution file is used to build a project using CMSIS Toolbox. The solution file contains the build information for the project, including the toolchain, target, and build options.
-Only one configuration should be built at a time, corresponding to the selected target and context. 
+Only one configuration should be built at a time, corresponding to the selected target set. 
 
 * Build a solution using default settings : `cbuild <solution-name>.csolution.yml`
-* Build a solution with a specific build context (.Release, .Debug, CM55.Release ...) : `cbuild <solution-name>.csolution.yml --context <context-name>`
 * Build a solution using a specific toolchain (AC6, GCC, CLANG) : `cbuild <solution-name>.csolution.yml --toolchain <toolchain>`
-* Build a solution using a specific target `cbuild <solution-name>.csolution.yml --active <target-name>`
+* Build a solution using a specific target `cbuild <solution-name>.csolution.yml --active <target-set>`
 
 
 The solution file is generally in the root folder of the project and has a name in the format `<solution-name>.csolution.yml`. The solution file contains the build information for the project.
 
-The `<target-name>` is the type entry of the target-types defined in the solution file. The solution file can contain multiple target-types, each with a different target name. The `--active` option is used to specify which target-type to build.
-
-Option `--output <output-folder>` can be used to specify the output folder for the build artifacts. By default, the build artifacts are generated in the `build` folder in the root of the project. If `output-dirs` is defined in the solution, don't use the `--output` option.
+The `<target-set>` is the type entry of the target-types defined in the solution file. The solution file can contain multiple target-types, each with a different target name. The `--active` option is used to specify which target-type to build.
 
 The first build should add the option `--update-rte` and `--packs`to ensure that all required packs are installed and the RTE is up-to-date. After the first build, the option can be omitted if there are no changes to the solution file or the pack registry.
 
@@ -95,7 +92,7 @@ If used from an IDE context, the project should be set up for the IDE before bui
 In an IDE environment, this command downloads missing packs, creates build information files, and generates the file `compile_commands.json` for IntelliSense. 
 
 ```bash
-cbuild setup <solution-name>.csolution.yml --context-set --packs`
+cbuild setup <solution-name>.csolution.yml --target database --active <target-set> --packs --skip-convert
 ```
 
 ## How to add a new software pack to the registry
